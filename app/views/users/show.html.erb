@@ -15,5 +15,17 @@
   <%= @user.desc %>
 </p>
 
+<h2>投稿内容</h2>
+<% @user.tweets.each do |tweet| %>
+  <a href="/tweets/<%= tweet.id %>"><%= tweet.content %></a>
+  <hr>
+<% end %>
+<h3>いいねしている投稿</h3>
+<% @user.liked_tweets.each do |tweet| %>
+  <%= tweet.user.email %>
+  <%= tweet.content %>
+  <br>
+<% end %>
+<br>
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

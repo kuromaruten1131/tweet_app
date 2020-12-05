@@ -3,12 +3,28 @@
 <p>
   <strong>Content:</strong>
   <%= @tweet.content %>
+  <% if current_user.already_liked?(@tweet) %>
+    <%= link_to(tweet_like_path(@tweet), method: :delete) do %>
+      <span class="fas fa-heart"></span>
+    <% end %>
+    <%= @tweet.likes.count %>
+  <% else %>
+    <%= link_to(tweet_likes_path(@tweet), method: :post) do %>
+    <span class="far fa-heart"></span>
+    <% end %>
+    <%= @tweet.likes.count %>
+  <% end %>
 </p>
 
 <p>
   <strong>User:</strong>
   <%= @tweet.user_id %>
 </p>
+
+<h2>いいねしたユーザー</h2>
+<% @tweet.liked_users.each do |user| %>
+  <li><%= user.email %></li>
+<% end %>
 
 <%= link_to 'Edit', edit_tweet_path(@tweet) %> |
 <%= link_to 'Back', tweets_path %>
