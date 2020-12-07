@@ -1,7 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Nickname:</strong>
   <%= @user.nickname %>
 </p>
 
@@ -15,17 +14,37 @@
   <%= @user.desc %>
 </p>
 
-<h2>投稿内容</h2>
+<h2>Tweets</h2>
 <% @user.tweets.each do |tweet| %>
+  <div class="tweet-list">
   <a href="/tweets/<%= tweet.id %>"><%= tweet.content %></a>
-  <hr>
-<% end %>
-<h3>いいねしている投稿</h3>
-<% @user.liked_tweets.each do |tweet| %>
-  <%= tweet.user.email %>
-  <%= tweet.content %>
-  <br>
+  </div>
 <% end %>
 <br>
-<%= link_to 'Edit', edit_user_path(@user) %> |
+<h2>Likes</h2>
+<% @user.liked_tweets.each do |tweet| %>
+  <div class="liked_tweets">
+    <%= link_to tweet.user.nickname, user_path(tweet.user_id) %><br>
+    <%= link_to tweet.content, tweet_path(tweet.id) %><br>
+    <%= tweet.created_at.strftime('%Y/%m/%d') %>
+    <% if current_user.already_liked?(tweet) %>
+      <%= link_to(tweet_like_path(tweet), method: :delete) do %>
+        <span class="fas fa-heart"></span>
+      <% end %>
+      <%= tweet.likes.count %>
+    <% else %>
+      <%= link_to(tweet_likes_path(tweet), method: :post) do %>
+      <span class="far fa-heart"></span>
+      <% end %>
+      <%= tweet.likes.count %>
+    <% end %>
+  </div>
+<% end %>
+<br>
+<% if current_user.id == @user.id %>
+  <%= link_to 'Edit', edit_user_path(@user) %> |
+<% end %>
 <%= link_to 'Back', users_path %>
+<% if current_user.id == @user.id %>
+  | <%= link_to 'Destroy', user_path, method: :DELETE %>
+<% end %>
