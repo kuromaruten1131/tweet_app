@@ -11,6 +11,23 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <div class="my-profile">
+        <% if user_signed_in? %>
+          <%= link_to current_user.nickname, user_path(current_user.id) %>
+        <% end %>
+      </div>
+      <div class="header-logo">
+        <%= link_to 'TweetApp',tweets_path %>
+      </div>
+      <div class="logout">
+        <% if user_signed_in? %>
+          <%= link_to 'LogOut', destroy_user_session_path, method: :DELETE %>
+        <% end %>
+      </div>
+    </header>
+    <div class="wrapper">
+      <%= yield %>
+    </div>
   </body>
 </html>
