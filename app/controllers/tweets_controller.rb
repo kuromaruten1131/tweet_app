@@ -1,5 +1,6 @@
 class TweetsController < ApplicationController
-  before_action :set_tweet, only: [:show, :edit, :update, :destroy]
+  before_action :set_tweet, only: [:show]
+  before_action :set_tweet_current_user, only: [:edit, :update, :destroy]
   before_action :authenticate_user!
 
   # GET /tweets
@@ -70,8 +71,13 @@ class TweetsController < ApplicationController
       @tweet = Tweet.find(params[:id])
     end
 
+    def set_tweet_current_user
+      @tweet = Tweet.find(params[:id])
+      redirect_to root_path unless current_user == @tweet.user
+    end
+
     # Only allow a list of trusted parameters through.
     def tweet_params
-      params.require(:tweet).permit(:content, :user_id).merge(user_id: current_user.id)
+      params.require(:tweet).permit(:content).merge(user: current_user)
     end
 end

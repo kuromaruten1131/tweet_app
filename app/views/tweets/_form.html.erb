@@ -13,11 +13,17 @@
 
   <div class="field">
     <%= form.label :content %>
-    <%= form.text_field :content %>
+    <%= form.text_field :content, id: "js-count", rows: 10, cols: 100  %>
+    <div class="counter">
+      <span class="show-count">0</span>文字
+    </div>
+    <span id="content-error-message">Tweetは必須かつ140文字以下。</span>
   </div>
 
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit id: "btn" %>
   </div>
 <% end %>
+
+<%= javascript_pack_tag 'tweets/form' %>
