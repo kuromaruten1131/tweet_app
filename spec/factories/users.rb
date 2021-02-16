@@ -14,4 +14,7 @@ FactoryBot.define do
     password {"123456"}
     password_confirmation {password}
   end
+  trait :invalid do
+    nickname{nil}
+  end
 end
