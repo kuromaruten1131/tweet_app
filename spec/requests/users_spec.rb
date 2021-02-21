@@ -68,10 +68,6 @@ RSpec.describe "UsersController", type: :request do
         get edit_user_path(user)
         expect(response).to have_http_status(302)
       end
-      it "sign_inにリダイレクトされているか" do
-        get edit_user_path(user)
-        expect(response).to redirect_to("/users")
-      end
     end
 
     context "ログイン時" do
@@ -141,10 +137,6 @@ RSpec.describe "UsersController", type: :request do
       it "リクエストに失敗しているか" do
         put user_path(user), params: { user: FactoryBot.attributes_for(:user) }
         expect(response).to have_http_status(302)
-      end
-      it "sign_inにリダイレクトされているか" do
-        put user_path(user), params: { user: FactoryBot.attributes_for(:user) }
-        expect(response).to redirect_to("/users")
       end
     end
 
